@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic-Tac-Toe Projekt Dokumentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #2980b9;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #3498db;
+            margin-top: 20px;
+        }
+        pre {
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            background-color: #f5f5f5;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        .file-structure {
+            background-color: #f5f7fa;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #3498db;
+        }
+        .method {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        .class-diagram {
+            max-width: 100%;
+            margin: 20px 0;
+        }
+        .note {
+            background-color: #fff8dc;
+            border-left: 4px solid #ffeb3b;
+            padding: 10px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Tic-Tac-Toe Projekt Dokumentation</h1>
+    
+    <h2>Projektübersicht</h2>
+    <p>
+        Dieses Projekt implementiert das klassische Tic-Tac-Toe-Spiel (Drei gewinnt) in Python mit einem objektorientierten Ansatz.
+        Es bietet verschiedene Spielmodi (Mensch gegen Computer oder Mensch gegen Mensch) und mehrere Schwierigkeitsstufen für den Computer-Gegner.
+    </p>
+    
+    <h3>Hauptmerkmale</h3>
+    <ul>
+        <li>Objektorientierte Architektur mit klarer Trennung der Verantwortlichkeiten</li>
+        <li>Farbige Konsolenanzeige für bessere Benutzerfreundlichkeit</li>
+        <li>Drei Schwierigkeitsstufen für den Computer-Gegner:
+            <ul>
+                <li>Leicht: Zufällige Züge</li>
+                <li>Mittel: Blockiert Gewinnzüge des Spielers</li>
+                <li>Schwer: Optimale Strategie mit Minimax-Algorithmus und Alpha-Beta-Pruning</li>
+            </ul>
+        </li>
+        <li>Spielstatistiken-Tracking (Siege, Niederlagen, Unentschieden)</li>
+        <li>Optionen für Spielwiederholung</li>
+    </ul>
+    
+    <h2>Projektstruktur</h2>
+    <div class="file-structure">
+        <pre>
+Day84/
+│
+├── ascii_art.py      # ASCII-Kunst für das Spieltitel-Banner
+├── ui_utils.py       # Hilfsfunktionen für die Benutzeroberfläche (farbige Ausgabe)
+├── board.py          # Spielbrett-Klasse mit Spiellogik
+├── player.py         # Spieler-Klassen (Mensch und Computer)
+├── game.py           # Hauptspielklasse, die den Spielablauf steuert
+└── main_oop.py       # Einstiegspunkt des Programms
+        </pre>
+    </div>
+    
+    <h2>Detaillierte Dateibeschreibungen</h2>
+    
+    <h3>1. board.py</h3>
+    <p>
+        Diese Datei enthält die <code>Board</code>-Klasse, die das Spielbrett repräsentiert und die grundlegende Spiellogik implementiert.
+    </p>
+    
+    <h4>Klasse: Board</h4>
+    <p>
+        Zuständig für die Verwaltung des Spielbretts, einschließlich der Darstellung, Spielzugvalidierung und der Erkennung von Gewinnbedingungen.
+    </p>
+    
+    <h5>Wichtige Attribute:</h5>
+    <ul>
+        <li><code>EMPTY</code>: Symbol für leere Felder (standardmäßig "⬜️")</li>
+        <li><code>PLAYER_X</code>: Symbol für Spieler X (standardmäßig "❌")</li>
+        <li><code>PLAYER_O</code>: Symbol für Spieler O (standardmäßig "⭕")</li>
+        <li><code>grid</code>: 3x3-Matrix, die den aktuellen Spielbrettzustand speichert</li>
+        <li><code>positions</code>: Dictionary, das Zahleneingaben (1-9) auf Koordinaten (row, col) abbildet</li>
+    </ul>
+    
+    <h5>Hauptmethoden:</h5>
+    <div class="method">
+        <code>initialize_grid()</code>: Initialisiert ein neues, leeres 3x3-Spielbrett.
+    </div>
+    <div class="method">
+        <code>display()</code>: Zeigt das aktuelle Spielbrett mit farbigen Symbolen in der Konsole an.
+    </div>
+    <div class="method">
+        <code>make_move(row, col, symbol)</code>: Platziert ein Symbol an der angegebenen Position, wenn der Zug gültig ist.
+    </div>
+    <div class="method">
+        <code>is_valid_move(row, col)</code>: Prüft, ob ein Zug gültig ist (innerhalb des Bretts und auf einem leeren Feld).
+    </div>
+    <div class="method">
+        <code>get_empty_positions()</code>: Gibt eine Liste aller leeren Positionen auf dem Brett zurück.
+    </div>
+    <div class="method">
+        <code>is_full()</code>: Prüft, ob das Brett voll ist (keine leeren Felder mehr).
+    </div>
+    <div class="method">
+        <code>check_winner()</code>: Überprüft, ob es einen Gewinner gibt, und gibt das Symbol des Gewinners zurück.
+    </div>
+    <div class="method">
+        <code>get_copy()</code>: Erstellt eine tiefe Kopie des aktuellen Spielbretts für die KI-Berechnung.
+    </div>
+    <div class="method">
+        <code>reset()</code>: Setzt das Spielbrett auf seinen Anfangszustand zurück.
+    </div>
+    
+    <h3>2. player.py</h3>
+    <p>
+        Diese Datei enthält die Klassen für verschiedene Spielertypen - sowohl menschliche als auch Computer-Spieler.
+    </p>
+    
+    <h4>Klasse: Player (Basis-Klasse)</h4>
+    <p>
+        Eine abstrakte Basisklasse, die die gemeinsamen Eigenschaften und Verhaltensweisen aller Spielertypen definiert.
+    </p>
+    
+    <h5>Wichtige Attribute:</h5>
+    <ul>
+        <li><code>symbol</code>: Das Symbol des Spielers (X oder O)</li>
+        <li><code>name</code>: Der Name des Spielers</li>
+        <li><code>wins</code>: Anzahl der Siege</li>
+        <li><code>losses</code>: Anzahl der Niederlagen</li>
+        <li><code>draws</code>: Anzahl der Unentschieden</li>
+    </ul>
+    
+    <h5>Hauptmethoden:</h5>
+    <div class="method">
+        <code>get_move(board)</code>: Abstrakte Methode, die von Unterklassen implementiert werden muss, um einen Spielzug zu erhalten.
+    </div>
+    <div class="method">
+        <code>update_stats(result)</code>: Aktualisiert die Spielerstatistiken basierend auf dem Spielergebnis.
+    </div>
+    <div class="method">
+        <code>display_stats()</code>: Zeigt die Statistiken des Spielers an.
+    </div>
+    
+    <h4>Klasse: HumanPlayer (erbt von Player)</h4>
+    <p>
+        Repräsentiert einen menschlichen Spieler, der Züge über die Konsole eingibt.
+    </p>
+    
+    <h5>Hauptmethoden:</h5>
+    <div class="method">
+        <code>get_move(board)</code>: Fordert den Benutzer auf, eine Zahl zwischen 1-9 einzugeben, und validiert die Eingabe.
+    </div>
+    
+    <h4>Klasse: ComputerPlayer (erbt von Player)</h4>
+    <p>
+        Repräsentiert einen Computer-Spieler mit verschiedenen Schwierigkeitsstufen.
+    </p>
+    
+    <h5>Zusätzliche Attribute:</h5>
+    <ul>
+        <li><code>difficulty</code>: Schwierigkeitsgrad (1=Leicht, 2=Mittel, 3=Schwer)</li>
+    </ul>
+    
+    <h5>Hauptmethoden:</h5>
+    <div class="method">
+        <code>get_move(board)</code>: Wählt basierend auf dem Schwierigkeitsgrad einen Zug aus.
+    </div>
+    <div class="method">
+        <code>_get_easy_move(board)</code>: Wählt einen zufälligen gültigen Zug (Schwierigkeitsgrad 1).
+    </div>
+    <div class="method">
+        <code>_get_medium_move(board)</code>: Versucht, einen Gewinnzug zu machen oder einen Gewinnzug des Gegners zu blockieren (Schwierigkeitsgrad 2).
+    </div>
+    <div class="method">
+        <code>_get_hard_move(board)</code>: Verwendet den Minimax-Algorithmus für optimale Züge (Schwierigkeitsgrad 3).
+    </div>
+    <div class="method">
+        <code>_minimax(board, depth, is_maximizing, comp_symbol, player_symbol, alpha, beta)</code>: Implementiert den Minimax-Algorithmus mit Alpha-Beta-Pruning für optimale Zugerkennung.
+    </div>
+    
+    <h3>3. game.py</h3>
+    <p>
+        Diese Datei enthält die <code>TicTacToeGame</code>-Klasse, die den gesamten Spielablauf steuert.
+    </p>
+    
+    <h4>Klasse: TicTacToeGame</h4>
+    <p>
+        Die Hauptspielklasse, die den Spielablauf, die Spieler, das Brett und den Spielstatus verwaltet.
+    </p>
+    
+    <h5>Wichtige Attribute:</h5>
+    <ul>
+        <li><code>board</code>: Das Spielbrett-Objekt</li>
+        <li><code>players</code>: Liste der Spieler (2 Spieler)</li>
+        <li><code>current_player_index</code>: Index des aktuellen Spielers in der Spielerliste</li>
+        <li><code>vs_computer</code>: Gibt an, ob gegen den Computer gespielt wird (true) oder gegen einen anderen Menschen (false)</li>
+        <li><code>game_active</code>: Gibt an, ob das Spiel aktiv ist</li>
+    </ul>
+    
+    <h5>Hauptmethoden:</h5>
+    <div class="method">
+        <code>setup_game()</code>: Richtet ein neues Spiel ein, indem das Brett initialisiert und Spieler erstellt werden.
+    </div>
+    <div class="method">
+        <code>play()</code>: Die Hauptspielschleife, die die Züge verwaltet und auf Spielende prüft.
+    </div>
+    <div class="method">
+        <code>_handle_winner(winner_symbol)</code>: Behandelt das Spielende, wenn es einen Gewinner gibt.
+    </div>
+    <div class="method">
+        <code>_handle_draw()</code>: Behandelt das Spielende, wenn es ein Unentschieden gibt.
+    </div>
+    <div class="method">
+        <code>_choose_game_mode()</code>: Lässt den Spieler den Spielmodus wählen (gegen Computer oder gegen Menschen).
+    </div>
+    <div class="method">
+        <code>_choose_difficulty()</code>: Lässt den Spieler die Schwierigkeit wählen, wenn gegen den Computer gespielt wird.
+    </div>
+    <div class="method">
+        <code>_choose_symbol()</code>: Lässt den Spieler sein Symbol wählen (X oder O).
+    </div>
+    <div class="method">
+        <code>_determine_first_player()</code>: Bestimmt, welcher Spieler beginnt.
+    </div>
+    <div class="method">
+        <code>display_stats()</code>: Zeigt die Spielstatistiken für alle Spieler an.
+    </div>
+    
+    <h3>4. ui_utils.py</h3>
+    <p>
+        Diese Datei enthält Hilfsfunktionen für die Benutzeroberfläche, insbesondere für farbige Textausgaben in der Konsole.
+    </p>
+    
+    <h4>Klasse: Colors</h4>
+    <p>
+        Enthält ANSI-Farbcodes für verschiedene Farben.
+    </p>
+    
+    <h5>Farbcodes:</h5>
+    <ul>
+        <li><code>RESET</code>: Setzt die Farbe zurück</li>
+        <li><code>RED</code>: Rot</li>
+        <li><code>GREEN</code>: Grün</li>
+        <li><code>YELLOW</code>: Gelb</li>
+        <li><code>BLUE</code>: Blau</li>
+        <li><code>MAGENTA</code>: Magenta</li>
+        <li><code>CYAN</code>: Cyan</li>
+        <li><code>WHITE</code>: Weiß</li>
+    </ul>
+    
+    <h5>Hilfsfunktionen:</h5>
+    <div class="method">
+        <code>colored_text(text, color)</code>: Gibt Text in der angegebenen Farbe zurück.
+    </div>
+    <div class="method">
+        <code>print_info(message)</code>: Gibt eine Informationsnachricht in Blau aus.
+    </div>
+    <div class="method">
+        <code>print_success(message)</code>: Gibt eine Erfolgsnachricht in Grün aus.
+    </div>
+    <div class="method">
+        <code>print_warning(message)</code>: Gibt eine Warnmeldung in Gelb aus.
+    </div>
+    <div class="method">
+        <code>print_error(message)</code>: Gibt eine Fehlermeldung in Rot aus.
+    </div>
+    
+    <h3>5. main_oop.py</h3>
+    <p>
+        Diese Datei ist der Einstiegspunkt des Programms. Sie startet das Spiel und verwaltet die Spielwiederholung.
+    </p>
+    
+    <h5>Hauptfunktion:</h5>
+    <div class="method">
+        <code>main()</code>: Die Hauptfunktion, die das Spiel startet und die Spielwiederholung verwaltet.
+    </div>
+    
+    <h2>Zusammenspiel der Komponenten</h2>
+    <p>
+        Das Projekt folgt einem klaren objektorientierten Design, bei dem jede Komponente eine spezifische Verantwortung hat:
+    </p>
+    
+    <ol>
+        <li>
+            <strong>main_oop.py</strong> initialisiert das Spiel und verwaltet die Spielwiederholung.
+        </li>
+        <li>
+            <strong>game.py (TicTacToeGame)</strong> orchestriert den gesamten Spielablauf:
+            <ul>
+                <li>Erstellt und verwaltet das Spielbrett</li>
+                <li>Erstellt die Spieler basierend auf Benutzereinstellungen</li>
+                <li>Verwaltet den Spielzustand und den Spielfluss</li>
+                <li>Behandelt Spielende-Bedingungen (Gewinn, Unentschieden)</li>
+            </ul>
+        </li>
+        <li>
+            <strong>board.py (Board)</strong> enthält die gesamte Spielbrettlogik:
+            <ul>
+                <li>Speichert den Zustand des Spielbretts</li>
+                <li>Überprüft, ob Züge gültig sind</li>
+                <li>Erkennt Gewinner oder Unentschieden</li>
+                <li>Zeigt das Spielbrett an</li>
+            </ul>
+        </li>
+        <li>
+            <strong>player.py (Player-Klassen)</strong> implementiert verschiedene Spielertypen:
+            <ul>
+                <li>HumanPlayer: Sammelt Eingaben vom Benutzer</li>
+                <li>ComputerPlayer: Implementiert verschiedene KI-Strategien</li>
+            </ul>
+        </li>
+        <li>
+            <strong>ui_utils.py</strong> bietet Hilfsfunktionen für eine verbesserte Benutzeroberfläche.
+        </li>
+    </ol>
+    
+    <h2>Spielablauf</h2>
+    <ol>
+        <li>Das Programm wird über <code>main_oop.py</code> gestartet.</li>
+        <li>Ein neues <code>TicTacToeGame</code>-Objekt wird erstellt.</li>
+        <li>Der Spieler wählt den Spielmodus (gegen Computer oder gegen Menschen).</li>
+        <li>Bei Computergegner wählt der Spieler die Schwierigkeit.</li>
+        <li>Der Spieler wählt sein Symbol (X oder O).</li>
+        <li>Das Spiel bestimmt, wer beginnt.</li>
+        <li>Die Spieler machen abwechselnd Züge:
+            <ul>
+                <li>Menschliche Spieler geben eine Zahl von 1-9 ein.</li>
+                <li>Der Computer wählt seinen Zug basierend auf der Schwierigkeit.</li>
+            </ul>
+        </li>
+        <li>Nach jedem Zug wird überprüft, ob jemand gewonnen hat oder ob es ein Unentschieden gibt.</li>
+        <li>Nach Spielende werden die Statistiken angezeigt.</li>
+        <li>Der Spieler wird gefragt, ob er erneut spielen möchte.</li>
+    </ol>
+    
+    <h2>Algorithmen im Detail</h2>
+    
+    <h3>Minimax-Algorithmus mit Alpha-Beta-Pruning</h3>
+    <p>
+        Der in <code>ComputerPlayer._minimax()</code> implementierte Minimax-Algorithmus ist eine rekursive Methode zur Bestimmung des optimalen Zuges in rundenbasierten Spielen. Der Algorithmus:
+    </p>
+    <ol>
+        <li>Evaluiert alle möglichen Züge und deren Folgen bis zum Spielende.</li>
+        <li>Nimmt an, dass beide Spieler optimal spielen - der Computer maximiert seinen Score, der Gegner minimiert ihn.</li>
+        <li>Verwendet Alpha-Beta-Pruning, um Zweige des Suchbaums zu "beschneiden", die das Endergebnis nicht beeinflussen können, wodurch die Berechnungseffizienz verbessert wird.</li>
+    </ol>
+    
+    <h3>Gewinnprüfung</h3>
+    <p>
+        Die <code>check_winner()</code>-Methode der Board-Klasse überprüft drei Arten von Gewinnmustern:
+    </p>
+    <ol>
+        <li>Horizontale Reihen (3 gleiche Symbole in einer Zeile)</li>
+        <li>Vertikale Reihen (3 gleiche Symbole in einer Spalte)</li>
+        <li>Diagonale Reihen (3 gleiche Symbole diagonal)</li>
+    </ol>
+    
+    <h2>Fazit</h2>
+    <p>
+        Dieses Projekt demonstriert ein gut strukturiertes, objektorientiertes Design für das klassische Tic-Tac-Toe-Spiel. Es bietet verschiedene Spielmodi und Schwierigkeitsstufen und implementiert fortgeschrittene Algorithmen wie Minimax mit Alpha-Beta-Pruning für die KI-Gegner.
+    </p>
+    <p>
+        Die klare Trennung von Verantwortlichkeiten zwischen den Klassen und die gut dokumentierten Methoden machen den Code leicht verständlich und wartbar. Das Projekt kann als Basis für ähnliche Spielimplementierungen oder als Lernressource für objektorientierte Programmierung und Spieltheorie-Algorithmen dienen.
+    </p>
+</body>
+</html>

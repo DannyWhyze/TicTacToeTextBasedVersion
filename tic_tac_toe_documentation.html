@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic-Tac-Toe Project Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #2980b9;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #3498db;
+            margin-top: 20px;
+        }
+        pre {
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            background-color: #f5f5f5;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        .file-structure {
+            background-color: #f5f7fa;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #3498db;
+        }
+        .method {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        .class-diagram {
+            max-width: 100%;
+            margin: 20px 0;
+        }
+        .note {
+            background-color: #fff8dc;
+            border-left: 4px solid #ffeb3b;
+            padding: 10px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Tic-Tac-Toe Project Documentation</h1>
+    
+    <h2>Project Overview</h2>
+    <p>
+        This project implements the classic Tic-Tac-Toe game in Python using an object-oriented approach.
+        It offers various game modes (human vs. computer or human vs. human) and multiple difficulty levels for the computer opponent.
+    </p>
+    
+    <h3>Main Features</h3>
+    <ul>
+        <li>Object-oriented architecture with clear separation of responsibilities</li>
+        <li>Colorful console display for better user experience</li>
+        <li>Three difficulty levels for the computer opponent:
+            <ul>
+                <li>Easy: Random moves</li>
+                <li>Medium: Blocks player's winning moves</li>
+                <li>Hard: Optimal strategy using Minimax algorithm with Alpha-Beta pruning</li>
+            </ul>
+        </li>
+        <li>Game statistics tracking (wins, losses, draws)</li>
+        <li>Option to replay the game</li>
+    </ul>
+    
+    <h2>Project Structure</h2>
+    <div class="file-structure">
+        <pre>
+Day84/
+│
+├── ascii_art.py      # ASCII art for the game title banner
+├── ui_utils.py       # Utility functions for the user interface (colored output)
+├── board.py          # Board class with game logic
+├── player.py         # Player classes (human and computer)
+├── game.py           # Main game class that controls the game flow
+└── main_oop.py       # Entry point of the program
+        </pre>
+    </div>
+    
+    <h2>Detailed File Descriptions</h2>
+    
+    <h3>1. board.py</h3>
+    <p>
+        This file contains the <code>Board</code> class, which represents the game board and implements the core game logic.
+    </p>
+    
+    <h4>Class: Board</h4>
+    <p>
+        Responsible for managing the game board, including display, move validation, and winner detection.
+    </p>
+    
+    <h5>Key Attributes:</h5>
+    <ul>
+        <li><code>EMPTY</code>: Symbol for empty cells (default "⬜️")</li>
+        <li><code>PLAYER_X</code>: Symbol for player X (default "❌")</li>
+        <li><code>PLAYER_O</code>: Symbol for player O (default "⭕")</li>
+        <li><code>grid</code>: 3x3 matrix storing the current board state</li>
+        <li><code>positions</code>: Dictionary mapping numeric inputs (1-9) to coordinates (row, col)</li>
+    </ul>
+    
+    <h5>Main Methods:</h5>
+    <div class="method">
+        <code>initialize_grid()</code>: Initializes a new, empty 3x3 game board.
+    </div>
+    <div class="method">
+        <code>display()</code>: Displays the current board with colored symbols in the console.
+    </div>
+    <div class="method">
+        <code>make_move(row, col, symbol)</code>: Places a symbol at the specified position if the move is valid.
+    </div>
+    <div class="method">
+        <code>is_valid_move(row, col)</code>: Checks if a move is valid (within bounds and on an empty cell).
+    </div>
+    <div class="method">
+        <code>get_empty_positions()</code>: Returns a list of all empty positions on the board.
+    </div>
+    <div class="method">
+        <code>is_full()</code>: Checks if the board is full (no empty cells left).
+    </div>
+    <div class="method">
+        <code>check_winner()</code>: Checks if there is a winner and returns the winner's symbol.
+    </div>
+    <div class="method">
+        <code>get_copy()</code>: Creates a deep copy of the current board for AI calculations.
+    </div>
+    <div class="method">
+        <code>reset()</code>: Resets the board to its initial empty state.
+    </div>
+    
+    <h3>2. player.py</h3>
+    <p>
+        This file contains the classes for different player types - both human and computer players.
+    </p>
+    
+    <h4>Class: Player (Base Class)</h4>
+    <p>
+        An abstract base class that defines the common properties and behaviors of all player types.
+    </p>
+    
+    <h5>Key Attributes:</h5>
+    <ul>
+        <li><code>symbol</code>: The player's symbol (X or O)</li>
+        <li><code>name</code>: The player's name</li>
+        <li><code>wins</code>: Number of wins</li>
+        <li><code>losses</code>: Number of losses</li>
+        <li><code>draws</code>: Number of draws</li>
+    </ul>
+    
+    <h5>Main Methods:</h5>
+    <div class="method">
+        <code>get_move(board)</code>: Abstract method that must be implemented by subclasses to get a move.
+    </div>
+    <div class="method">
+        <code>update_stats(result)</code>: Updates the player's statistics based on the game result.
+    </div>
+    <div class="method">
+        <code>display_stats()</code>: Displays the player's statistics.
+    </div>
+    
+    <h4>Class: HumanPlayer (inherits from Player)</h4>
+    <p>
+        Represents a human player who inputs moves via the console.
+    </p>
+    
+    <h5>Main Methods:</h5>
+    <div class="method">
+        <code>get_move(board)</code>: Prompts the user to input a number between 1-9 and validates the input.
+    </div>
+    
+    <h4>Class: ComputerPlayer (inherits from Player)</h4>
+    <p>
+        Represents a computer player with different difficulty levels.
+    </p>
+    
+    <h5>Additional Attributes:</h5>
+    <ul>
+        <li><code>difficulty</code>: Difficulty level (1=Easy, 2=Medium, 3=Hard)</li>
+    </ul>
+    
+    <h5>Main Methods:</h5>
+    <div class="method">
+        <code>get_move(board)</code>: Selects a move based on the difficulty level.
+    </div>
+    <div class="method">
+        <code>_get_easy_move(board)</code>: Selects a random valid move (difficulty level 1).
+    </div>
+    <div class="method">
+        <code>_get_medium_move(board)</code>: Attempts to make a winning move or block the opponent's winning move (difficulty level 2).
+    </div>
+    <div class="method">
+        <code>_get_hard_move(board)</code>: Uses the Minimax algorithm for optimal moves (difficulty level 3).
+    </div>
+    <div class="method">
+        <code>_minimax(board, depth, is_maximizing, comp_symbol, player_symbol, alpha, beta)</code>: Implements the Minimax algorithm with Alpha-Beta pruning for optimal move selection.
+    </div>
+    
+    <h3>3. game.py</h3>
+    <p>
+        This file contains the <code>TicTacToeGame</code> class, which controls the overall game flow.
+    </p>
+    
+    <h4>Class: TicTacToeGame</h4>
+    <p>
+        The main game class that manages the game flow, players, board, and game state.
+    </p>
+    
+    <h5>Key Attributes:</h5>
+    <ul>
+        <li><code>board</code>: The game board object</li>
+        <li><code>players</code>: List of players (2 players)</li>
+        <li><code>current_player_index</code>: Index of the current player in the player list</li>
+        <li><code>vs_computer</code>: Indicates whether the game is against the computer (true) or another human (false)</li>
+        <li><code>game_active</code>: Indicates whether the game is active</li>
+    </ul>
+    
+    <h5>Main Methods:</h5>
+    <div class="method">
+        <code>setup_game()</code>: Sets up a new game by initializing the board and creating players.
+    </div>
+    <div class="method">
+        <code>play()</code>: The main game loop that manages turns and checks for game end.
+    </div>
+    <div class="method">
+        <code>_handle_winner(winner_symbol)</code>: Handles the end of the game when there is a winner.
+    </div>
+    <div class="method">
+        <code>_handle_draw()</code>: Handles the end of the game when it is a draw.
+    </div>
+    <div class="method">
+        <code>_choose_game_mode()</code>: Lets the player choose the game mode (vs. computer or vs. human).
+    </div>
+    <div class="method">
+        <code>_choose_difficulty()</code>: Lets the player choose the difficulty level when playing against the computer.
+    </div>
+    <div class="method">
+        <code>_choose_symbol()</code>: Lets the player choose their symbol (X or O).
+    </div>
+    <div class="method">
+        <code>_determine_first_player()</code>: Determines which player goes first.
+    </div>
+    <div class="method">
+        <code>display_stats()</code>: Displays the game statistics for all players.
+    </div>
+    
+    <h3>4. ui_utils.py</h3>
+    <p>
+        This file contains utility functions for the user interface, particularly for colored text output in the console.
+    </p>
+    
+    <h4>Class: Colors</h4>
+    <p>
+        Contains ANSI color codes for various colors.
+    </p>
+    
+    <h5>Color Codes:</h5>
+    <ul>
+        <li><code>RESET</code>: Resets the color</li>
+        <li><code>RED</code>: Red</li>
+        <li><code>GREEN</code>: Green</li>
+        <li><code>YELLOW</code>: Yellow</li>
+        <li><code>BLUE</code>: Blue</li>
+        <li><code>MAGENTA</code>: Magenta</li>
+        <li><code>CYAN</code>: Cyan</li>
+        <li><code>WHITE</code>: White</li>
+    </ul>
+    
+    <h5>Utility Functions:</h5>
+    <div class="method">
+        <code>colored_text(text, color)</code>: Returns text in the specified color.
+    </div>
+    <div class="method">
+        <code>print_info(message)</code>: Prints an informational message in blue.
+    </div>
+    <div class="method">
+        <code>print_success(message)</code>: Prints a success message in green.
+    </div>
+    <div class="method">
+        <code>print_warning(message)</code>: Prints a warning message in yellow.
+    </div>
+    <div class="method">
+        <code>print_error(message)</code>: Prints an error message in red.
+    </div>
+    
+    <h3>5. main_oop.py</h3>
+    <p>
+        This file is the entry point of the program. It starts the game and manages game replay.
+    </p>
+    
+    <h5>Main Function:</h5>
+    <div class="method">
+        <code>main()</code>: The main function that starts the game and manages game replay.
+    </div>
+    
+    <h2>Component Interaction</h2>
+    <p>
+        The project follows a clear object-oriented design, where each component has a specific responsibility:
+    </p>
+    
+    <ol>
+        <li>
+            <strong>main_oop.py</strong> initializes the game and manages game replay.
+        </li>
+        <li>
+            <strong>game.py (TicTacToeGame)</strong> orchestrates the entire game flow:
+            <ul>
+                <li>Creates and manages the game board</li>
+                <li>Creates players based on user settings</li>
+                <li>Manages the game state and flow</li>
+                <li>Handles game-ending conditions (win, draw)</li>
+            </ul>
+        </li>
+        <li>
+            <strong>board.py (Board)</strong> contains all game board logic:
+            <ul>
+                <li>Stores the state of the game board</li>
+                <li>Validates moves</li>
+                <li>Detects winners or draws</li>
+                <li>Displays the game board</li>
+            </ul>
+        </li>
+        <li>
+            <strong>player.py (Player Classes)</strong> implements different player types:
+            <ul>
+                <li>HumanPlayer: Collects input from the user</li>
+                <li>ComputerPlayer: Implements various AI strategies</li>
+            </ul>
+        </li>
+        <li>
+            <strong>ui_utils.py</strong> provides utility functions for an enhanced user interface.
+        </li>
+    </ol>
+    
+    <h2>Game Flow</h2>
+    <ol>
+        <li>The program is started via <code>main_oop.py</code>.</li>
+        <li>A new <code>TicTacToeGame</code> object is created.</li>
+        <li>The player chooses the game mode (vs. computer or vs. human).</li>
+        <li>For computer opponents, the player selects the difficulty level.</li>
+        <li>The player chooses their symbol (X or O).</li>
+        <li>The game determines who goes first.</li>
+        <li>Players take turns making moves:
+            <ul>
+                <li>Human players input a number from 1-9.</li>
+                <li>The computer selects its move based on the difficulty level.</li>
+            </ul>
+        </li>
+        <li>After each move, the game checks if someone has won or if it is a draw.</li>
+        <li>At the end of the game, statistics are displayed.</li>
+        <li>The player is asked if they want to play again.</li>
+    </ol>
+    
+    <h2>Algorithms in Detail</h2>
+    
+    <h3>Minimax Algorithm with Alpha-Beta Pruning</h3>
+    <p>
+        The Minimax algorithm implemented in <code>ComputerPlayer._minimax()</code> is a recursive method for determining the optimal move in turn-based games. The algorithm:
+    </p>
+    <ol>
+        <li>Evaluates all possible moves and their outcomes until the end of the game.</li>
+        <li>Assumes both players play optimally - the computer maximizes its score, while the opponent minimizes it.</li>
+        <li>Uses Alpha-Beta pruning to "cut off" branches of the search tree that cannot affect the final decision, improving computational efficiency.</li>
+    </ol>
+    
+    <h3>Winner Detection</h3>
+    <p>
+        The <code>check_winner()</code> method of the Board class checks for three types of winning patterns:
+    </p>
+    <ol>
+        <li>Horizontal rows (3 identical symbols in a row)</li>
+        <li>Vertical columns (3 identical symbols in a column)</li>
+        <li>Diagonal rows (3 identical symbols diagonally)</li>
+    </ol>
+    
+    <h2>Conclusion</h2>
+    <p>
+        This project demonstrates a well-structured, object-oriented design for the classic Tic-Tac-Toe game. It offers various game modes and difficulty levels and implements advanced algorithms like Minimax with Alpha-Beta pruning for AI opponents.
+    </p>
+    <p>
+        The clear separation of responsibilities between classes and the well-documented methods make the code easy to understand and maintain. The project can serve as a foundation for similar game implementations or as a learning resource for object-oriented programming and game theory algorithms.
+    </p>
+</body>
+</html>
